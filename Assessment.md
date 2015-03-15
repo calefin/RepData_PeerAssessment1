@@ -176,4 +176,4 @@ xyplot(steps ~ interval | weekdays, steps.week, type = "l", layout = c(1,
     col = "black")
 ```
 
-![plot of chunk Plot4](Plot.png) 
+![plot of chunk Plot4](Plot4.png) 
