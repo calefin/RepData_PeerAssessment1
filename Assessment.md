@@ -65,7 +65,7 @@ steps.5min <- ddply(no.NA,~interval, summarise, mean=mean(steps))
 plot(steps.5min$interval, steps.5min$mean, xlab="Averaged steps across all days", ylab= "5-minute Interval", main="Time series steps", type="l")
 ```
 
-![plot of chunk Plot2](figure/Plot2-1.png) 
+![plot of chunk Plot2](Plot2.png) 
 
 
 ```r
@@ -133,7 +133,7 @@ sum.steps2 <- aggregate(data$steps, by=list(date=data$date), FUN=sum)
 hist(sum.steps2$x, breaks = 60, main = "Total number of steps by day (NAs = mean)", xlab = "Steps Daily")
 ```
 
-![plot of chunk Plot3](figure/Plot3-1.png) 
+![plot of chunk Plot3](Plot3.png) 
 
 
 ```r
@@ -176,4 +176,4 @@ xyplot(steps ~ interval | weekdays, steps.week, type = "l", layout = c(1,
     col = "black")
 ```
 
-![plot of chunk Plot4](figure/Plot4-1.png) 
+![plot of chunk Plot4](Plot.png) 
