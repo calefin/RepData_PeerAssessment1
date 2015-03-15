@@ -29,7 +29,7 @@ sum.steps <- na.omit(sum.steps)
 hist(sum.steps$x, breaks = 60, main = "Total number of steps by day", xlab = "Steps Daily")
 ```
 
-![plot of chunk Plot1](figure/Plot1-1.png) 
+![plot of chunk Plot1](Plot1.png) 
 
 
 ```r
