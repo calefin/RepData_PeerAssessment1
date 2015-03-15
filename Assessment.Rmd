@@ -1,0 +1,120 @@
+---
+title: "Asssessments 1 - Reproducible Research"
+author: "Atilio S. Calefi"
+date: "Sunday, March 15, 2015"
+output: pdf_document
+---
+
+Loading and preprocessing the data
+
+```{r}
+data <- read.csv(unz("activity.zip", "activity.csv"), header=TRUE)
+
+###Convert to Date
+data$date <- as.Date(data$date) 
+```
+
+What is mean total number of steps taken per day?
+```{r}
+no.NA <- na.omit(data)
+
+sum.steps <- aggregate(data$steps, by=list(date=data$date), FUN=sum)
+sum.steps <- na.omit(sum.steps)
+```
+
+```{r Plot1}
+hist(sum.steps$x, breaks = 60, main = "Total number of steps by day", xlab = "Steps Daily")
+```
+
+```{r }
+###Steps mean by day
+mean(sum.steps$x)
+```
+
+
+```{r}
+###Steps median by day
+median(sum.steps$x)
+```
+
+What is the average daily activity pattern?
+
+```{r}
+library(plyr)
+steps.5min <- ddply(no.NA,~interval, summarise, mean=mean(steps))
+```
+
+```{r Plot2}
+plot(steps.5min$interval, steps.5min$mean, xlab="Averaged steps across all days", ylab= "5-minute Interval", main="Time series steps", type="l")
+```
+
+```{r}
+### Interval that contain the maximum number of steps
+steps.5min[which.max(steps.5min$mean), ]
+```
+
+Imputing missing values
+
+```{r}
+###Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+
+###Total NAs in steps column - date and interval are factors, don't have missiong values
+sum(is.na(data$steps))
+```
+
+```{r}
+###Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+
+na.position <- which(is.na(data$steps))
+
+mean.vector <- rep(mean(data$steps, na.rm=TRUE), times=length(na.position))
+```
+
+```{r}
+###Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
+#Replace NA by the mean
+data[na.position, "steps"] <- mean.vector
+
+head(data)
+```
+
+```{r}
+
+###Make a histogram of the total number of steps taken each day and calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+
+sum.steps2 <- aggregate(data$steps, by=list(date=data$date), FUN=sum)
+```
+
+```{r Plot3}
+hist(sum.steps2$x, breaks = 60, main = "Total number of steps by day (NAs = mean)", xlab = "Steps Daily")
+```
+
+```{r }
+###Steps mean by day
+mean(sum.steps2$x)
+```
+
+```{r}
+median(sum.steps2$x)
+```
+
+Are there differences in activity patterns between weekdays and weekends?
+
+```{r}
+###Create a new factor
+
+weekdays <- weekdays(data$date)
+data$weekdays <- ifelse(weekdays == "Sunday" | weekdays == "Saturday", "Weekend", "Weekday")
+
+steps.week <- aggregate(data$steps, by = list(data$interval, data$weekdays), mean)
+
+names(steps.week) <- c("interval", "weekdays", "steps")
+```
+
+```{r Plot4}
+library(lattice)
+xyplot(steps ~ interval | weekdays, steps.week, type = "l", layout = c(1, 
+    2), xlab = "Interval", ylab = "Number of steps", main = "Activity on Weekends and Weekdays", 
+    col = "black")
+```
