@@ -103,6 +103,8 @@ Are there differences in activity patterns between weekdays and weekends?
 
 ```{r}
 ###Create a new factor
+### These code depends on your R language
+### Data made in English, so I used Saturday and Sunday.
 
 weekdays <- weekdays(data$date)
 data$weekdays <- ifelse(weekdays == "Sunday" | weekdays == "Saturday", "Weekend", "Weekday")
