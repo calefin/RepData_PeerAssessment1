@@ -1,8 +1,8 @@
 ---
 title: "Asssessments 1 - Reproducible Research"
-author: "Atilio S. Calefi"
+author: "calefin"
 date: "Sunday, March 15, 2015"
-output: pdf_document
+output: html_document
 ---
 
 Loading and preprocessing the data
