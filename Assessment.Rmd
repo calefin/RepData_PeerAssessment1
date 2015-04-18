@@ -11,6 +11,7 @@ Loading and preprocessing the data
 data <- read.csv(unz("activity.zip", "activity.csv"), header=TRUE)
 
 ###Convert to Date
+
 data$date <- as.Date(data$date) 
 ```
 
